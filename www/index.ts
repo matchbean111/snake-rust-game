@@ -3,7 +3,7 @@ import { rnd } from "./utils/rnd";
 
 init().then(wasm => {
   const CELL_SIZE = 20;
-  const WORLD_WIDTH = 5;
+  const WORLD_WIDTH = 4;
   const snakeSpawnIdx = rnd(WORLD_WIDTH * WORLD_WIDTH);
 
   const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
@@ -93,6 +93,7 @@ init().then(wasm => {
       const col = cellIdx % worldWidth;
       const row = Math.floor(cellIdx / worldWidth);
 
+      // we are overriding snake head color 
       ctx.fillStyle = i === 0 ? "#7878db" : "#000000";
 
       ctx.beginPath();
@@ -119,6 +120,7 @@ init().then(wasm => {
   }
 
   function play() {
+    console.log("We are playing")
     const fps = 3;
     setTimeout(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
