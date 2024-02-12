@@ -10,7 +10,7 @@ init().then(wasm => {
   const worldWidth = world.width();
 
   const gameStatus = document.
-    getElementById("game-status")  
+    getElementById("game-status")
   const gameControlBtn = document.
     getElementById("game-control-btn")
   const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
@@ -29,7 +29,7 @@ init().then(wasm => {
       location.reload()
     }
 
-    
+
   })
 
   document.addEventListener("keydown", e => {
@@ -89,21 +89,27 @@ init().then(wasm => {
       world.snake_length()
     )
 
-    snakeCells.forEach((cellIdx, i) => {
-      const col = cellIdx % worldWidth;
-      const row = Math.floor(cellIdx / worldWidth);
 
-      // we are overriding snake head color 
-      ctx.fillStyle = i === 0 ? "#7878db" : "#000000";
 
-      ctx.beginPath();
-      ctx.fillRect(
-        col * CELL_SIZE,
-        row * CELL_SIZE,
-        CELL_SIZE,
-        CELL_SIZE
-      );
-    })
+    snakeCells
+      .slice()
+      .reverse()
+      // .filter((cellIdx, i) => !(i > 0 && cellIdx === snakeCells[0]))
+      .forEach((cellIdx, i) => {
+        const col = cellIdx % worldWidth;
+        const row = Math.floor(cellIdx / worldWidth);
+
+        // we are overriding snake head color 
+        ctx.fillStyle = i === snakeCells.length-1 ? "#7878db" : "#000000";
+
+        ctx.beginPath();
+        ctx.fillRect(
+          col * CELL_SIZE,
+          row * CELL_SIZE,
+          CELL_SIZE,
+          CELL_SIZE
+        );
+      })
 
     ctx.stroke();
   }
