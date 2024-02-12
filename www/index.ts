@@ -3,17 +3,24 @@ import { rnd } from "./utils/rnd";
 
 init().then(wasm => {
   const CELL_SIZE = 20;
-  const WORLD_WIDTH = 4;
+  const WORLD_WIDTH = 5;
   const snakeSpawnIdx = rnd(WORLD_WIDTH * WORLD_WIDTH);
 
   const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
   const worldWidth = world.width();
 
+  const gameControlBtn = document.
+    getElementById("game-control-btn")
   const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
   const ctx = canvas.getContext("2d");
 
   canvas.height = worldWidth * CELL_SIZE;
   canvas.width = worldWidth * CELL_SIZE;
+
+  gameControlBtn.addEventListener("click", _ => {
+    world.start_game();
+    play()
+  })
 
   document.addEventListener("keydown", e => {
     switch (e.code) {
@@ -96,17 +103,16 @@ init().then(wasm => {
     drawReward();
   }
 
-  function update() {
+  function play() {
     const fps = 3;
     setTimeout(() => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       world.step();
       paint();
       // the method takes a callback to invoked before the next repaint
-      requestAnimationFrame(update)
+      requestAnimationFrame(play)
     }, 1000 / fps)
   }
 
   paint();
-  update();
 })
