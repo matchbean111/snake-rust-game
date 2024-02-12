@@ -4,11 +4,20 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matchbean111/snake-rust-game.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matchbean111/snake-rust-game/issues"
+  },
+  "homepage": "https://github.com/matchbean111/snake-rust-game#README",
   "dependencies": {
     "compression": "^1.7.4",
     "express": "^4.18.2"
