@@ -18,6 +18,7 @@ pub enum Direction {
     Left,
 }
 
+#[derive(Clone,Copy)]
 #[wasm_bindgen]
 pub enum GameStatus {
     Won,
@@ -100,6 +101,10 @@ impl World {
 
     pub fn start_game(&mut self) {
         self.status = Some(GameStatus::Played)
+    }
+
+    pub fn game_status(&self) -> Option<GameStatus> {
+        self.status
     }
 
     pub fn change_snake_dir(&mut self, direction: Direction) {
