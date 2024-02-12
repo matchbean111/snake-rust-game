@@ -1,9 +1,9 @@
-import init, { World, Direction } from "snake_game";
+import init, { World, Direction, GameStatus } from "snake_game";
 import { rnd } from "./utils/rnd";
 
 init().then(wasm => {
   const CELL_SIZE = 20;
-  const WORLD_WIDTH = 4;
+  const WORLD_WIDTH = 8;
   const snakeSpawnIdx = rnd(WORLD_WIDTH * WORLD_WIDTH);
 
   const world = World.new(WORLD_WIDTH, snakeSpawnIdx);
@@ -13,6 +13,8 @@ init().then(wasm => {
     getElementById("game-status")
   const gameControlBtn = document.
     getElementById("game-control-btn")
+  const points = document.
+    getElementById("points")
   const canvas = <HTMLCanvasElement>document.getElementById("snake-canvas");
   const ctx = canvas.getContext("2d");
 
@@ -89,18 +91,15 @@ init().then(wasm => {
       world.snake_length()
     )
 
-
-
     snakeCells
       .slice()
       .reverse()
-      // .filter((cellIdx, i) => !(i > 0 && cellIdx === snakeCells[0]))
       .forEach((cellIdx, i) => {
         const col = cellIdx % worldWidth;
         const row = Math.floor(cellIdx / worldWidth);
 
         // we are overriding snake head color 
-        ctx.fillStyle = i === snakeCells.length-1 ? "#7878db" : "#000000";
+        ctx.fillStyle = i === snakeCells.length - 1 ? "#7878db" : "#000000";
 
         ctx.beginPath();
         ctx.fillRect(
@@ -115,7 +114,10 @@ init().then(wasm => {
   }
 
   function drawGameStatus() {
+
     gameStatus.textContent = world.game_status_text()
+    points.textContent = world.points().toString()
+
   }
 
   function paint() {
@@ -126,6 +128,12 @@ init().then(wasm => {
   }
 
   function play() {
+    const status = world.game_status()
+    if (status == GameStatus.Won || status == GameStatus.Lost) {
+      gameControlBtn.textContent = "Re-Play"
+      return;
+    }
+
     console.log("We are playing")
     const fps = 3;
     setTimeout(() => {
